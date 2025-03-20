@@ -11,6 +11,7 @@
             padding: 0;
             background-color: #f2f2f2;
             color: #333;
+            padding-bottom: 70px; /* Prostor pro fixní panel */
         }
         
         .container {
@@ -27,6 +28,9 @@
             margin-bottom: 20px;
             border-bottom: 5px solid #e10600;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
         h1 {
@@ -352,6 +356,59 @@
             background-color: #c00500;
         }
         
+        /* Fixní panel dole */
+        .fixed-budget-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #15151e;
+            color: white;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+            z-index: 900;
+        }
+        
+        .budget-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex: 1;
+        }
+        
+        .budget-item {
+            text-align: center;
+            padding: 0 10px;
+        }
+        
+        .budget-item .label {
+            font-size: 0.8em;
+            opacity: 0.8;
+            margin-bottom: 3px;
+        }
+        
+        .budget-item .value {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .scroll-top {
+            background-color: #e10600;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
         @media (min-width: 768px) {
             .layout {
                 display: flex;
@@ -369,12 +426,32 @@
         
         /* Mobilní optimalizace */
         @media (max-width: 767px) {
+            header {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            table {
+                font-size: 0.9em;
+            }
+            
+            th, td {
+                padding: 10px 8px;
+            }
+            
             .selected-grid {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                grid-template-columns: repeat(2, 1fr);
             }
             
             .preview-grid {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                grid-template-columns: repeat(2, 1fr);
             }
             
             .preview-footer {
@@ -399,14 +476,11 @@
                 height: 24px;
             }
             
-            td {
-                padding: 15px 10px;
-            }
-            
             button {
-                padding: 15px 20px;
+                padding: 12px 15px;
                 width: 100%;
-                margin: 10px 0;
+                margin: 8px 0;
+                font-size: 0.9em;
             }
             
             .preview-close {
@@ -425,6 +499,60 @@
             .preview-container {
                 overflow-y: hidden;
             }
+            
+            .preview-body {
+                padding: 15px;
+            }
+            
+            /* Vylepšení pro fixní panel na mobilech */
+            .fixed-budget-panel {
+                padding: 8px;
+            }
+            
+            .budget-item {
+                padding: 0 5px;
+            }
+            
+            .budget-item .label {
+                font-size: 0.7em;
+            }
+            
+            .budget-item .value {
+                font-size: 0.9em;
+            }
+            
+            /* Optimalizace rozložení pro telefony na výšku */
+            .selection-area {
+                position: relative;
+                top: 0;
+                margin-top: 15px;
+                padding: 15px;
+            }
+            
+            /* Odstranění margin-right pro tlačítka na malých obrazovkách */
+            button {
+                margin-right: 0;
+            }
+            
+            /* Zlepšení clickable oblasti pro mobilní zařízení */
+            tr {
+                cursor: pointer;
+            }
+            
+            /* Zarovnání checkboxů na mobilech */
+            td:last-child {
+                text-align: center;
+            }
+        }
+        
+        /* Zvýraznění vybraných řádků */
+        tr.selected {
+            background-color: #ffecec;
+        }
+        
+        /* Styl pro řádky při kliknutí */
+        tr:active {
+            background-color: #f0f0f0;
         }
     </style>
 </head>
@@ -443,52 +571,52 @@
                         <th>Cena</th>
                         <th>Vybrat</th>
                     </tr>
-                    <tr>
+                    <tr data-team="Red Bull Racing" data-price="6.5" data-flag="🇦🇹">
                         <td><span class="flag">🇦🇹</span> Red Bull Racing</td>
                         <td><span class="price-tag">6.5 mil.</span></td>
                         <td><input type="radio" name="team" data-name="Red Bull Racing" data-price="6.5" data-flag="🇦🇹"></td>
                     </tr>
-                    <tr>
+                    <tr data-team="McLaren" data-price="7.5" data-flag="🇬🇧">
                         <td><span class="flag">🇬🇧</span> McLaren</td>
                         <td><span class="price-tag">7.5 mil.</span></td>
                         <td><input type="radio" name="team" data-name="McLaren" data-price="7.5" data-flag="🇬🇧"></td>
                     </tr>
-                    <tr>
+                    <tr data-team="Ferrari" data-price="7.0" data-flag="🇮🇹">
                         <td><span class="flag">🇮🇹</span> Ferrari</td>
                         <td><span class="price-tag">7.0 mil.</span></td>
                         <td><input type="radio" name="team" data-name="Ferrari" data-price="7.0" data-flag="🇮🇹"></td>
                     </tr>
-                    <tr>
+                    <tr data-team="Mercedes" data-price="6.0" data-flag="🇩🇪">
                         <td><span class="flag">🇩🇪</span> Mercedes</td>
                         <td><span class="price-tag">6.0 mil.</span></td>
                         <td><input type="radio" name="team" data-name="Mercedes" data-price="6.0" data-flag="🇩🇪"></td>
                     </tr>
-                    <tr>
+                    <tr data-team="Aston Martin" data-price="3.5" data-flag="🇬🇧">
                         <td><span class="flag">🇬🇧</span> Aston Martin</td>
                         <td><span class="price-tag">3.5 mil.</span></td>
                         <td><input type="radio" name="team" data-name="Aston Martin" data-price="3.5" data-flag="🇬🇧"></td>
                     </tr>
-                    <tr>
+                    <tr data-team="Alpine" data-price="3.5" data-flag="🇫🇷">
                         <td><span class="flag">🇫🇷</span> Alpine</td>
                         <td><span class="price-tag">3.5 mil.</span></td>
                         <td><input type="radio" name="team" data-name="Alpine" data-price="3.5" data-flag="🇫🇷"></td>
                     </tr>
-                    <tr>
+                    <tr data-team="Visa Cash App RB" data-price="3.0" data-flag="🇮🇹">
                         <td><span class="flag">🇮🇹</span> Visa Cash App RB</td>
                         <td><span class="price-tag">3.0 mil.</span></td>
                         <td><input type="radio" name="team" data-name="Visa Cash App RB" data-price="3.0" data-flag="🇮🇹"></td>
                     </tr>
-                    <tr>
+                    <tr data-team="Williams" data-price="4.0" data-flag="🇬🇧">
                         <td><span class="flag">🇬🇧</span> Williams</td>
                         <td><span class="price-tag">4.0 mil.</span></td>
                         <td><input type="radio" name="team" data-name="Williams" data-price="4.0" data-flag="🇬🇧"></td>
                     </tr>
-                    <tr>
+                    <tr data-team="Haas" data-price="3.0" data-flag="🇺🇸">
                         <td><span class="flag">🇺🇸</span> Haas</td>
                         <td><span class="price-tag">3.0 mil.</span></td>
                         <td><input type="radio" name="team" data-name="Haas" data-price="3.0" data-flag="🇺🇸"></td>
                     </tr>
-                    <tr>
+                    <tr data-team="Sauber" data-price="1.5" data-flag="🇨🇭">
                         <td><span class="flag">🇨🇭</span> Sauber</td>
                         <td><span class="price-tag">1.5 mil.</span></td>
                         <td><input type="radio" name="team" data-name="Sauber" data-price="1.5" data-flag="🇨🇭"></td>
@@ -502,102 +630,102 @@
                         <th>Cena</th>
                         <th>Vybrat</th>
                     </tr>
-                    <tr>
+                    <tr data-driver="Verstappen" data-price="7.5" data-flag="🇳🇱">
                         <td><span class="flag">🇳🇱</span> Verstappen</td>
                         <td><span class="price-tag">7.5 mil.</span></td>
                         <td><input type="checkbox" data-name="Verstappen" data-price="7.5" data-flag="🇳🇱"></td>
                     </tr>
-                    <tr>
+                    <tr data-driver="Lawson" data-price="5.0" data-flag="🇳🇿">
                         <td><span class="flag">🇳🇿</span> Lawson</td>
                         <td><span class="price-tag">5.0 mil.</span></td>
                         <td><input type="checkbox" data-name="Lawson" data-price="5.0" data-flag="🇳🇿"></td>
                     </tr>
-                    <tr>
+                    <tr data-driver="Norris" data-price="8.0" data-flag="🇬🇧">
                         <td><span class="flag">🇬🇧</span> Norris</td>
                         <td><span class="price-tag">8.0 mil.</span></td>
                         <td><input type="checkbox" data-name="Norris" data-price="8.0" data-flag="🇬🇧"></td>
                     </tr>
-                    <tr>
+                    <tr data-driver="Piastri" data-price="6.5" data-flag="🇦🇺">
                         <td><span class="flag">🇦🇺</span> Piastri</td>
                         <td><span class="price-tag">6.5 mil.</span></td>
                         <td><input type="checkbox" data-name="Piastri" data-price="6.5" data-flag="🇦🇺"></td>
                     </tr>
-                    <tr>
+                    <tr data-driver="Leclerc" data-price="7.0" data-flag="🇲🇨">
                         <td><span class="flag">🇲🇨</span> Leclerc</td>
                         <td><span class="price-tag">7.0 mil.</span></td>
                         <td><input type="checkbox" data-name="Leclerc" data-price="7.0" data-flag="🇲🇨"></td>
                     </tr>
-                    <tr>
+                    <tr data-driver="Hamilton" data-price="7.0" data-flag="🇬🇧">
                         <td><span class="flag">🇬🇧</span> Hamilton</td>
                         <td><span class="price-tag">7.0 mil.</span></td>
                         <td><input type="checkbox" data-name="Hamilton" data-price="7.0" data-flag="🇬🇧"></td>
                     </tr>
-                    <tr>
+                    <tr data-driver="Russel" data-price="6.5" data-flag="🇬🇧">
                         <td><span class="flag">🇬🇧</span> Russel</td>
                         <td><span class="price-tag">6.5 mil.</span></td>
                         <td><input type="checkbox" data-name="Russel" data-price="6.5" data-flag="🇬🇧"></td>
                     </tr>
-                    <tr>
+                    <tr data-driver="Antonelli" data-price="5.0" data-flag="🇮🇹">
                         <td><span class="flag">🇮🇹</span> Antonelli</td>
                         <td><span class="price-tag">5.0 mil.</span></td>
                         <td><input type="checkbox" data-name="Antonelli" data-price="5.0" data-flag="🇮🇹"></td>
                     </tr>
-                    <tr>
+                    <tr data-driver="Alonso" data-price="4.0" data-flag="🇪🇸">
                         <td><span class="flag">🇪🇸</span> Alonso</td>
                         <td><span class="price-tag">4.0 mil.</span></td>
                         <td><input type="checkbox" data-name="Alonso" data-price="4.0" data-flag="🇪🇸"></td>
                     </tr>
-                    <tr>
+                    <tr data-driver="Stroll" data-price="3.0" data-flag="🇨🇦">
                         <td><span class="flag">🇨🇦</span> Stroll</td>
                         <td><span class="price-tag">3.0 mil.</span></td>
                         <td><input type="checkbox" data-name="Stroll" data-price="3.0" data-flag="🇨🇦"></td>
                     </tr>
-                    <tr>
+                    <tr data-driver="Gasly" data-price="4.5" data-flag="🇫🇷">
                         <td><span class="flag">🇫🇷</span> Gasly</td>
                         <td><span class="price-tag">4.5 mil.</span></td>
                         <td><input type="checkbox" data-name="Gasly" data-price="4.5" data-flag="🇫🇷"></td>
                     </tr>
-                    <tr>
+                    <tr data-driver="Doohan" data-price="3.0" data-flag="🇦🇺">
                         <td><span class="flag">🇦🇺</span> Doohan</td>
                         <td><span class="price-tag">3.0 mil.</span></td>
                         <td><input type="checkbox" data-name="Doohan" data-price="3.0" data-flag="🇦🇺"></td>
                     </tr>
-                    <tr>
+                    <tr data-driver="Albon" data-price="4.0" data-flag="🇹🇭">
                         <td><span class="flag">🇹🇭</span> Albon</td>
                         <td><span class="price-tag">4.0 mil.</span></td>
                         <td><input type="checkbox" data-name="Albon" data-price="4.0" data-flag="🇹🇭"></td>
                     </tr>
-                    <tr>
+                    <tr data-driver="Sainz" data-price="4.5" data-flag="🇪🇸">
                         <td><span class="flag">🇪🇸</span> Sainz</td>
                         <td><span class="price-tag">4.5 mil.</span></td>
                         <td><input type="checkbox" data-name="Sainz" data-price="4.5" data-flag="🇪🇸"></td>
                     </tr>
-                    <tr>
+                    <tr data-driver="Tsunoda" data-price="3.5" data-flag="🇯🇵">
                         <td><span class="flag">🇯🇵</span> Tsunoda</td>
                         <td><span class="price-tag">3.5 mil.</span></td>
                         <td><input type="checkbox" data-name="Tsunoda" data-price="3.5" data-flag="🇯🇵"></td>
                     </tr>
-                    <tr>
+                    <tr data-driver="Hadjar" data-price="2.5" data-flag="🇫🇷">
                         <td><span class="flag">🇫🇷</span> Hadjar</td>
                         <td><span class="price-tag">2.5 mil.</span></td>
                         <td><input type="checkbox" data-name="Hadjar" data-price="2.5" data-flag="🇫🇷"></td>
                     </tr>
-                    <tr>
+                    <tr data-driver="Ocon" data-price="3.0" data-flag="🇫🇷">
                         <td><span class="flag">🇫🇷</span> Ocon</td>
                         <td><span class="price-tag">3.0 mil.</span></td>
                         <td><input type="checkbox" data-name="Ocon" data-price="3.0" data-flag="🇫🇷"></td>
                     </tr>
-                    <tr>
+                    <tr data-driver="Bearman" data-price="3.0" data-flag="🇬🇧">
                         <td><span class="flag">🇬🇧</span> Bearman</td>
                         <td><span class="price-tag">3.0 mil.</span></td>
                         <td><input type="checkbox" data-name="Bearman" data-price="3.0" data-flag="🇬🇧"></td>
                     </tr>
-                    <tr>
+                    <tr data-driver="Hulkenberg" data-price="2.0" data-flag="🇩🇪">
                         <td><span class="flag">🇩🇪</span> Hulkenberg</td>
                         <td><span class="price-tag">2.0 mil.</span></td>
                         <td><input type="checkbox" data-name="Hulkenberg" data-price="2.0" data-flag="🇩🇪"></td>
                     </tr>
-                    <tr>
+                    <tr data-driver="Bortoleto" data-price="1.5" data-flag="🇧🇷">
                         <td><span class="flag">🇧🇷</span> Bortoleto</td>
                         <td><span class="price-tag">1.5 mil.</span></td>
                         <td><input type="checkbox" data-name="Bortoleto" data-price="1.5" data-flag="🇧🇷"></td>
@@ -631,18 +759,37 @@
                         <!-- Sem bude dynamicky přidána karta -->
                     </div>
                     
-                    <button id="reset-button">Resetovat výběr</button>
-                    <button id="preview-button" disabled>Zobrazit náhled sestavy</button>
+                    <button id="reset-button">Resetovat</button>
+                    <button id="preview-button" disabled>Náhled</button>
                 </div>
             </div>
         </div>
+    </div>
+    
+    <!-- Fixní panel s rozpočtem -->
+    <div class="fixed-budget-panel">
+        <div class="budget-info">
+            <div class="budget-item">
+                <div class="label">Rozpočet</div>
+                <div class="value">30.0 mil.</div>
+            </div>
+            <div class="budget-item">
+                <div class="label">Využito</div>
+                <div id="fixed-used-budget" class="value">0.0 mil.</div>
+            </div>
+            <div class="budget-item">
+                <div class="label">Zbývá</div>
+                <div id="fixed-remaining-budget" class="value">30.0 mil.</div>
+            </div>
+        </div>
+        <div id="scroll-top" class="scroll-top">↑</div>
     </div>
     
     <!-- Finální náhled sestavy -->
     <div id="preview-container" class="preview-container">
         <div class="preview-content">
             <div class="preview-header">
-                <h2>F1 Baarovka Manager - Finální sestava</h2>
+                <h2>Finální sestava</h2>
             </div>
             <div class="preview-body">
                 <div class="preview-section">
@@ -693,10 +840,68 @@
             const previewClose = document.getElementById('preview-close');
             const usedBudgetElement = document.getElementById('used-budget');
             const remainingBudgetElement = document.getElementById('remaining-budget');
+            const fixedUsedBudgetElement = document.getElementById('fixed-used-budget');
+            const fixedRemainingBudgetElement = document.getElementById('fixed-remaining-budget');
             const progressBarElement = document.getElementById('progress-bar');
             const statusMessageElement = document.getElementById('status-message');
             const selectedDriversElement = document.getElementById('selected-drivers');
             const selectedTeamElement = document.getElementById('selected-team');
+            const scrollTopButton = document.getElementById('scroll-top');
+            
+            // Pro mobilní zařízení přidáme možnost kliknout i na celý řádek
+            const tableRows = document.querySelectorAll('#driversTable tr[data-driver], #teamsTable tr[data-team]');
+            
+            tableRows.forEach(row => {
+                row.addEventListener('click', function(e) {
+                    // Neklikejme na řádek, pokud jsme klikli přímo na checkbox nebo radio
+                    if (e.target.type === 'checkbox' || e.target.type === 'radio') {
+                        return;
+                    }
+                    
+                    // Najdeme input v tomto řádku
+                    const input = this.querySelector('input');
+                    if (input) {
+                        // Toggle input
+                        if (input.type === 'checkbox') {
+                            input.checked = !input.checked;
+                        } else {
+                            input.checked = true;
+                        }
+                        
+                        // Vyvoláme event change pro tento input
+                        const event = new Event('change');
+                        input.dispatchEvent(event);
+                    }
+                });
+            });
+            
+            // Přidáme třídu pro vybrané řádky
+            function updateSelectedRows() {
+                // Reset všech vybraných řádků
+                document.querySelectorAll('tr.selected').forEach(row => {
+                    row.classList.remove('selected');
+                });
+                
+                // Zvýraznění řádků s vybranými jezdci
+                selectedDrivers.forEach(driver => {
+                    const row = document.querySelector(`tr[data-driver="${driver.name}"]`);
+                    if (row) row.classList.add('selected');
+                });
+                
+                // Zvýraznění řádku s vybraným týmem
+                if (selectedTeam) {
+                    const row = document.querySelector(`tr[data-team="${selectedTeam.name}"]`);
+                    if (row) row.classList.add('selected');
+                }
+            }
+            
+            // Přidání scrollTop funkcionalitu
+            scrollTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
             
             // Přidání listenerů na checkboxy jezdců
             checkboxes.forEach(checkbox => {
@@ -723,6 +928,8 @@
                     
                     // Aktualizovat zobrazení
                     updateDisplay();
+                    // Aktualizace zvýraznění řádků
+                    updateSelectedRows();
                 });
             });
             
@@ -739,6 +946,8 @@
                     
                     // Aktualizovat zobrazení
                     updateDisplay();
+                    // Aktualizace zvýraznění řádků
+                    updateSelectedRows();
                 });
             });
             
@@ -760,6 +969,8 @@
                 
                 // Aktualizovat zobrazení
                 updateDisplay();
+                // Aktualizace zvýraznění řádků
+                updateSelectedRows();
             });
             
             // Přidání listeneru na tlačítko náhledu
@@ -780,28 +991,33 @@
                 }
             });
             
-            // Funkce pro aktualizaci zobrazení
-            function updateDisplay() {
-                // Výpočet rozpočtu - ujistíme se, že pracujeme s čísly
-                let driversTotal = 0;
+            // Funkce pro výpočet celkové ceny jezdců
+            function calculateDriversTotal() {
+                let total = 0;
                 for (let i = 0; i < selectedDrivers.length; i++) {
-                    // Ujistíme se, že driver.price je číslo
                     const price = Number(selectedDrivers[i].price);
                     if (!isNaN(price)) {
-                        driversTotal += price;
+                        total += price;
                     }
                 }
-                
-                // Ujistíme se, že pracujeme s číslem pro cenu týmu
+                return total;
+            }
+            
+            // Funkce pro aktualizaci zobrazení
+            function updateDisplay() {
+                // Výpočet rozpočtu
+                const driversTotal = calculateDriversTotal();
                 const teamTotal = selectedTeam ? Number(selectedTeam.price) : 0;
-                
-                // Výpočet celkové ceny a zbývajícího rozpočtu
                 const totalCost = driversTotal + teamTotal;
                 const remainingBudget = BUDGET_LIMIT - totalCost;
                 
                 // Aktualizace rozpočtu v UI
                 usedBudgetElement.textContent = `${totalCost.toFixed(1)} mil.`;
                 remainingBudgetElement.textContent = `${remainingBudget.toFixed(1)} mil.`;
+                
+                // Aktualizace fixního panelu s rozpočtem
+                fixedUsedBudgetElement.textContent = `${totalCost.toFixed(1)} mil.`;
+                fixedRemainingBudgetElement.textContent = `${remainingBudget.toFixed(1)} mil.`;
                 
                 // Aktualizace progress baru
                 const progressPercentage = (totalCost / BUDGET_LIMIT) * 100;
@@ -875,12 +1091,8 @@
                     return;
                 }
                 
-                // Výpočet rozpočtu - ujistíme se, že pracujeme s čísly
-                let driversTotal = 0;
-                for (let i = 0; i < selectedDrivers.length; i++) {
-                    driversTotal += Number(selectedDrivers[i].price);
-                }
-                
+                // Výpočet rozpočtu
+                const driversTotal = calculateDriversTotal();
                 const teamTotal = Number(selectedTeam.price);
                 const totalCost = driversTotal + teamTotal;
                 const remainingBudget = BUDGET_LIMIT - totalCost;
@@ -921,6 +1133,7 @@
             
             // Inicializace
             updateDisplay();
+            updateSelectedRows();
         });
     </script>
 </body>
